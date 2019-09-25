@@ -1,0 +1,26 @@
+{
+  "name": "friend-finder",
+  "version": "1.0.0",
+  "description": "A app that helps you find someone with common interests",
+  "main": "server.js",
+  "dependencies": {
+    "bulma": "^0.7.5",
+    "express": "^4.17.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "testrun",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RedChristian77/Friend-Finder.git"
+  },
+  "author": "Christian Breyer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RedChristian77/Friend-Finder/issues"
+  },
+  "homepage": "https://github.com/RedChristian77/Friend-Finder#readme"
+}
