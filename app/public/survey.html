@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../../node_modules/bulma/css/bulma.css">
-    <link rel="stylesheet" href="../../node_modules/bulma/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css.map">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
     <title>Survey</title>
 </head>
 
@@ -294,18 +295,18 @@
         <button class="button is-success is large" id="submit-btn">Submit Your Info</a>
     </div>
     <div class="modal is-hidden-tablet is-hidden-mobile" id="isModal">
-        <div class="modal-background"></div>
+        <div class="modal-background has-background-primary"></div>
         <div class="modal-content">
-            <div class="container">
+            <div class="container has-text-white has-background-black">
                 <h1>Your closest Match of <span class="closeness"> </span></h1>
             </div>
-            <div class="container">
+            <div class="container has-text-white has-background-black">
                 <h3>Name: <span class="matchname"></span> </h3><br>
-                <img src="" alt=""><br>
+                <img src="" alt="" id="imgSrc"><br>
 
             </div>
         </div>
-        <button class="modal-close is-large" aria-label="close"></button>
+        <button class="modal-close is-large" aria-label="close" id="modalclose-btn"></button>
     </div>
 </body>
 <script>
@@ -346,24 +347,33 @@
         })
         .then((res) => res.json())
         .then(function(data) {
-            let mainperson;
-            let leadDif = 0;
-            data.forEach(person => {
+            console.log(data);
+            let leadname = "";
+            let photourl = "";
+            let leadDif = 100;
+            for(i=0; i<data.length-1;i++){
                 let difference = 0;
-                for(i=0;i<10;i++){
-                    difference = difference + (Math.abs(person.score[i] - info.scores[i]));
+                for(k=0; k<data[i].scores.length; k++){
+                    difference += (Math.abs(data[i].scores[k] - info.scores[k]));
                 }
-                if(leadDif > difference){
-                    mainperson = person;
+                if(difference < leadDif){
+                    leadname = data[i].name;
+                    photourl = data[i].photo;
                     leadDif = difference;
                 }
-            });;
+            }
             //editing the modal
             document.getElementsByClassName("closeness")[0].innerHTML= leadDif;
-            document.getElementsByClassName("matchname")[0].innerHTML = mainperson.name;
-            doucment.getElementById("isModal").classList.remove = "is-hidden-tablet";
-            document.getElementById("isModal").classList.remove = "is-hidden-mobile";
+            document.getElementsByClassName("matchname")[0].innerHTML = leadname;
+            document.getElementById("imgSrc").setAttribute("href",photourl);
+            document.getElementById("isModal").classList.remove("is-hidden-tablet");
+            document.getElementById("isModal").classList.remove("is-hidden-mobile");
+            document.getElementById("isModal").classList.add("is-active");
         })
+    })
+
+    document.getElementById("modalclose-btn").addEventListener("click", function(event) {
+        document.getElementById("isModal").classList.remove("is-active");
     })
 </script>
 </html>
